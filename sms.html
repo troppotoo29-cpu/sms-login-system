@@ -354,15 +354,27 @@ absentBody.innerHTML = "";
  
 // PRESENT
 (data.presentStudents || []).forEach(s => {
- 
+
+const loginTime =
+s.login
+? String(s.login).match(/\d{2}:\d{2}:\d{2}/)?.[0] || ""
+: "";
+
+const logoutTime =
+s.logout
+? String(s.logout).match(/\d{2}:\d{2}:\d{2}/)?.[0] || ""
+: "";
+
 presentBody.innerHTML += `
 <tr>
 <td>${s.adm}</td>
 <td>${s.name}</td>
-const loginTime =
-student.login
-? String(student.login).match(/\d{2}:\d{2}:\d{2}/)?.[0] || ""
-: "";
+<td>${loginTime}</td>
+<td>${logoutTime}</td>
+</tr>
+`;
+
+});
  
 const logoutTime =
 student.logout
