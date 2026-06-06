@@ -1,0 +1,223 @@
+
+<!DOCTYPE html>
+<html>
+ 
+<head>
+ 
+<meta name="viewport" content="width=device-width, initial-scale=1">
+ 
+<title>QR Attendance Scanner</title>
+ 
+<script src="https://cdn.jsdelivr.net/npm/@zxing/library@0.20.0/umd/index.min.js"></script>
+ 
+<style>
+ 
+body{
+font-family:Arial;
+text-align:center;
+background:#f2f2f2;
+padding:20px;
+}
+ 
+h2{
+color:#0b57d0;
+}
+ 
+video{
+width:100%;
+max-width:450px;
+height:320px;
+border:3px solid #0b57d0;
+border-radius:12px;
+background:black;
+object-fit:cover;
+}
+ 
+button{
+padding:15px 20px;
+font-size:18px;
+background:#0b57d0;
+color:white;
+border:none;
+border-radius:10px;
+cursor:pointer;
+margin-top:20px;
+}
+ 
+#msg{
+margin-top:20px;
+font-size:20px;
+font-weight:bold;
+color:#0b57d0;
+word-wrap:break-word;
+}
+ 
+iframe{
+display:none;
+}
+ 
+</style>
+ 
+</head>
+ 
+<body>
+ 
+<h2>QR Attendance Scanner</h2>
+ 
+<video id="video" autoplay playsinline></video>
+ 
+<br>
+ 
+<button onclick="setMode('LOGIN')">
+LOGIN MODE
+</button>
+ 
+<button onclick="setMode('LOGOUT')">
+LOGOUT MODE
+</button>
+ 
+<div id="modeDisplay">
+Current Mode: LOGIN
+</div>
+ 
+<br>
+ 
+<button id="startBtn">
+START CAMERA
+</button>
+ 
+<div id="msg">
+Ready
+</div>
+ 
+<iframe name="hiddenFrame"></iframe>
+ 
+<form
+id="hiddenForm"
+target="hiddenFrame"
+method="POST"
+action="https://script.google.com/macros/s/AKfycbzAwy0xHs0RaYlwCQ14Ab1itixVZCFDiJ9pM9HVmnAocqPNg-Xe1adYixSeWPpH39_b/exec">
+ 
+<input
+type="hidden"
+name="adm"
+id="hiddenAdm">
+ 
+</form>
+ 
+<script>
+ 
+const startBtn = document.getElementById("startBtn");
+const msg = document.getElementById("msg");
+const video = document.getElementById("video");
+ 
+// 🔊 beep ONLY ONCE
+const beep = new Audio(
+  "https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg"
+);
+ 
+let scanLock = false;
+let lastScannedADM = "";
+ 
+let currentMode = "LOGIN";
+function setMode(mode){
+ 
+  currentMode = mode;
+ 
+  document.getElementById("modeDisplay").innerHTML =
+    "Current Mode: " + mode;
+ 
+}
+startBtn.onclick = async function(){
+ 
+  try{
+ 
+  const stream = await navigator.mediaDevices.getUserMedia({
+  video: {
+    facingMode: "environment",
+    width: { ideal: 1280 },
+    height: { ideal: 720 }
+  },
+  audio: false
+});
+ 
+    video.srcObject = stream;
+    await video.play();
+    msg.innerHTML =
+  "Camera Started: " +
+  video.videoWidth +
+  "x" +
+  video.videoHeight;
+ 
+    msg.innerHTML = "Scanning...";
+ 
+    const codeReader = new ZXing.BrowserQRCodeReader();
+ 
+    codeReader.decodeFromVideoDevice(
+      null,
+      video,
+      (result, err) => {
+ 
+        if(result){
+ 
+          const adm = result.getText().trim();
+ 
+          if(scanLock && lastScannedADM === adm){
+            return;
+          }
+ 
+          scanLock = true;
+          lastScannedADM = adm;
+ 
+          // 🔊 beep
+          beep.currentTime = 0;
+          beep.play().catch(() => {});
+ 
+          fetch("https://script.google.com/macros/s/AKfycbzAwy0xHs0RaYlwCQ14Ab1itixVZCFDiJ9pM9HVmnAocqPNg-Xe1adYixSeWPpH39_b/exec", {
+method: "POST",
+body: new URLSearchParams({
+adm: adm,
+mode: currentMode
+})
+})
+.then(r => r.text())
+.then(response => {
+ 
+msg.innerHTML = response;
+ 
+setTimeout(() => {
+msg.innerHTML = "READY";
+scanLock = false;
+lastScannedADM = "";
+}, 5000);
+ 
+})
+.catch(error => {
+ 
+ 
+            msg.innerHTML = "ERROR: " + error;
+ 
+            scanLock = false;
+            lastScannedADM = "";
+ 
+          });
+ 
+        }
+ 
+      }
+    );
+ 
+  }
+ 
+  catch(e){
+    alert("CAMERA ERROR: " + e.message);
+  }
+ 
+};
+ 
+</script>
+ 
+</body>
+</html>
+ 
+
