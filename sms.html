@@ -264,48 +264,54 @@ PRINT REPORT
 
  
 async function loadClasses(){
- 
-try{
- 
-const select =
-document.getElementById("classSelect");
- 
-select.innerHTML =
-"<option>Loading...</option>";
- 
-const response = await fetch(
-"https://script.google.com/macros/s/AKfycbykjAy972Z64mguU--RkfWTmW_Of2iSOz8p3CoviAzIfxcQ-Kz_QWZjrntECcqF-2MiAw/exec?action=classes"
-);
- 
-const classes =
-await response.json();
- 
-select.innerHTML = "";
- 
-if(!Array.isArray(classes)){
- 
-  alert("Classes returned are not an array");
-  alert(JSON.stringify(classes));
-  return;
- 
-}
- 
-classes.forEach(className => {
- 
-select.innerHTML += `
-<option value="${className}">
-${className}
-</option>`;
- 
-});
- 
-}
-catch(error){
- 
-alert("LOAD CLASSES ERROR: " + error);
- 
-}
- 
+
+  try{
+
+    const select =
+      document.getElementById("classSelect");
+
+    select.innerHTML =
+      "<option>Loading...</option>";
+
+    const response = await fetch(
+      "https://script.google.com/macros/s/AKfycbykjAy972Z64mguU--RkfWTmW_Of2iSOz8p3CoviAzIfxcQ-Kz_QWZjrntECcqF-2MiAw/exec?action=classes"
+    );
+
+    const text =
+      await response.text();
+
+    console.log(text);
+
+    const classes =
+      JSON.parse(text);
+
+    select.innerHTML =
+      "<option value=''>Select Class</option>";
+
+    classes.forEach(className => {
+
+      const option =
+        document.createElement("option");
+
+      option.value = className;
+      option.textContent = className;
+
+      select.appendChild(option);
+
+    });
+
+  }
+  catch(error){
+
+    alert(
+      "LOAD CLASSES ERROR: " +
+      error
+    );
+
+    console.log(error);
+
+  }
+
 }
 async function loadStudents(){
  
