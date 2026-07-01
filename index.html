@@ -115,9 +115,10 @@ const video = document.getElementById("video");
 const beep = new Audio(
   "https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg"
 );
- 
-let scanLock = false;
 let lastScannedADM = "";
+let lastScanTime = 0;
+
+const SCAN_DELAY = 10000; // 10 seconds
  
 let currentMode = "LOGIN";
 function setMode(mode){
@@ -162,12 +163,22 @@ startBtn.onclick = async function(){
  
           const adm = result.getText().trim();
  
-          if(scanLock && lastScannedADM === adm){
-            return;
-          }
- 
-          scanLock = true;
-          lastScannedADM = adm;
+         const now = Date.now();
+
+if (
+    adm === lastScannedADM &&
+    (now - lastScanTime) < SCAN_DELAY
+) {
+
+    msg.innerHTML =
+      "⏳ Please wait... QR already scanned.";
+
+    return;
+
+}
+
+lastScannedADM = adm;
+lastScanTime = now;
  
           // 🔊 beep
           beep.currentTime = 0;
@@ -186,9 +197,9 @@ mode: currentMode
 msg.innerHTML = response;
  
 setTimeout(() => {
-msg.innerHTML = "READY";
-scanLock = false;
-lastScannedADM = "";
+
+    msg.innerHTML = "READY";
+
 }, 5000);
  
 })
