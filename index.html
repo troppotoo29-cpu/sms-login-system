@@ -1,28 +1,28 @@
 
 <!DOCTYPE html>
 <html>
- 
+
 <head>
- 
+
 <meta name="viewport" content="width=device-width, initial-scale=1">
- 
+
 <title>QR Attendance Scanner</title>
- 
+
 <script src="https://cdn.jsdelivr.net/npm/@zxing/library@0.20.0/umd/index.min.js"></script>
- 
+
 <style>
- 
+
 body{
 font-family:Arial;
 text-align:center;
 background:#f2f2f2;
 padding:20px;
 }
- 
+
 h2{
 color:#0b57d0;
 }
- 
+
 video{
 width:100%;
 max-width:450px;
@@ -32,194 +32,106 @@ border-radius:12px;
 background:black;
 object-fit:cover;
 }
- 
+
 button{
-padding:15px 25px;
+padding:15px 20px;
 font-size:18px;
-font-weight:bold;
-background:#1565c0;
+background:#0b57d0;
 color:white;
 border:none;
 border-radius:10px;
 cursor:pointer;
-margin:8px;
-transition:0.3s;
-}
-
-button:hover{
-background:#0d47a1;
-transform:scale(1.05);
+margin-top:20px;
 }
 
 #msg{
 margin-top:20px;
-padding:15px;
-font-size:22px;
+font-size:20px;
 font-weight:bold;
-color:#1565c0;
-background:white;
-border-radius:10px;
-box-shadow:0 2px 8px rgba(0,0,0,.2);
-max-width:450px;
-margin-left:auto;
-margin-right:auto;
+color:#0b57d0;
 word-wrap:break-word;
 }
 
 iframe{
 display:none;
 }
+
 </style>
- 
+
 </head>
- 
+
 <body>
- 
-<h2>SMART JUNIOR SCHOOL</h2>
 
-<h3>AI ATTENDANCE SYSTEM</h3>
- 
-<div
-style="
-background:white;
-padding:20px;
-border-radius:15px;
-max-width:500px;
-margin:auto;
-box-shadow:0 3px 10px rgba(0,0,0,.25);
-">
+<h2>QR Attendance Scanner</h2>
 
-<video
-id="video"
-autoplay
-playsinline>
-</video>
+<video id="video" autoplay playsinline></video>
 
-</div>
- 
 <br>
- 
+
 <button onclick="setMode('LOGIN')">
 LOGIN MODE
 </button>
- 
+
 <button onclick="setMode('LOGOUT')">
 LOGOUT MODE
 </button>
- 
+
 <div id="modeDisplay">
 Current Mode: LOGIN
- <br><br>
-
-<div
-style="
-background:white;
-padding:15px;
-border-radius:10px;
-max-width:450px;
-margin:auto;
-box-shadow:0 2px 8px rgba(0,0,0,.2);
-">
-
-<h3>Recognition Method</h3>
-
-<label>
-
-<input
-type="radio"
-name="recognition"
-value="QR"
-checked>
-
-QR ONLY
-
-</label>
-
-<br><br>
-
-<label>
-
-
-
-</label>
-
-<br><br>
-
-<label>
-
-
-</label>
-
 </div>
-</div>
- 
+
 <br>
- 
+
 <button id="startBtn">
 START CAMERA
 </button>
- 
-<div
-id="msg"
-style="
-margin-top:20px;
-padding:15px;
-background:white;
-border-radius:10px;
-font-size:22px;
-font-weight:bold;
-color:#1565c0;
-box-shadow:0 2px 8px rgba(0,0,0,.2);
-max-width:450px;
-margin-left:auto;
-margin-right:auto;
-">
-READY
+
+<div id="msg">
+Ready
 </div>
- 
+
 <iframe name="hiddenFrame"></iframe>
- 
+
 <form
 id="hiddenForm"
 target="hiddenFrame"
 method="POST"
-action="https://script.google.com/macros/s/AKfycbxSs7ncwq_OyAzSDpLLllmCU_IRACgJ1yGXZqXuwAfbEkJ38dopCDUtYbH6mWMzuRdi4A/exec"
- 
+action="https://script.google.com/macros/s/AKfycbw4Czo7dh2-x7g63n8Hv-DdwJot9r3dtiCTbpuPwUcBiX8Fy2cgoDo9pljf1hBDdEk2/exec">
+
 <input
 type="hidden"
 name="adm"
 id="hiddenAdm">
- 
+
 </form>
- 
+
 <script>
- 
+
 const startBtn = document.getElementById("startBtn");
 const msg = document.getElementById("msg");
 const video = document.getElementById("video");
- 
+
 // 🔊 beep ONLY ONCE
 const beep = new Audio(
   "https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg"
 );
-let lastScannedADM = "";
-let lastScanTime = 0;
 
-const SCAN_DELAY = 10000; // 10 seconds
- 
+let scanLock = false;
+let lastScannedADM = "";
+
 let currentMode = "LOGIN";
 function setMode(mode){
- 
+
   currentMode = mode;
- 
+
   document.getElementById("modeDisplay").innerHTML =
     "Current Mode: " + mode;
- 
+
 }
 startBtn.onclick = async function(){
- 
+
   try{
- 
+
   const stream = await navigator.mediaDevices.getUserMedia({
   video: {
     facingMode: "environment",
@@ -228,7 +140,7 @@ startBtn.onclick = async function(){
   },
   audio: false
 });
- 
+
     video.srcObject = stream;
     await video.play();
     msg.innerHTML =
@@ -236,110 +148,74 @@ startBtn.onclick = async function(){
   video.videoWidth +
   "x" +
   video.videoHeight;
- 
+
     msg.innerHTML = "Scanning...";
- 
-   const method =
-document.querySelector(
-'input[name="recognition"]:checked'
-).value;
 
-if(method=="QR"){
+    const codeReader = new ZXing.BrowserQRCodeReader();
 
-    startQRScanner();
-
-}
-else if(method=="FACE"){
-
-    startFaceRecognition();
-
-}
-else{
-
-    startFaceAndQR();
-
-}
+    codeReader.decodeFromVideoDevice(
       null,
       video,
       (result, err) => {
- 
+
         if(result){
- 
+
           const adm = result.getText().trim();
- 
-         const now = Date.now();
 
-if (
-    adm === lastScannedADM &&
-    (now - lastScanTime) < SCAN_DELAY
-) {
+          if(scanLock && lastScannedADM === adm){
+            return;
+          }
 
-    msg.innerHTML =
-      "⏳ Please wait... QR already scanned.";
+          scanLock = true;
+          lastScannedADM = adm;
 
-    return;
-
-}
-
-lastScannedADM = adm;
-lastScanTime = now;
- 
           // 🔊 beep
           beep.currentTime = 0;
           beep.play().catch(() => {});
- 
-        fetch("https://script.google.com/macros/s/AKfycbxSs7ncwq_OyAzSDpLLllmCU_IRACgJ1yGXZqXuwAfbEkJ38dopCDUtYbH6mWMzuRdi4A/exec", {
-method: "POST",
-const method =
-document.querySelector(
-'input[name="recognition"]:checked'
-).value;
 
-body:new URLSearchParams({
-    adm:adm,
-    mode:currentMode,
-    method:method
+          fetch("https://script.google.com/macros/s/AKfycbw4Czo7dh2-x7g63n8Hv-DdwJot9r3dtiCTbpuPwUcBiX8Fy2cgoDo9pljf1hBDdEk2/exec", {
+method: "POST",
+body: new URLSearchParams({
+adm: adm,
+mode: currentMode
 })
 })
 .then(r => r.text())
 .then(response => {
- 
+
 msg.innerHTML = response;
- 
+
 setTimeout(() => {
-
-    msg.innerHTML = "READY";
-
+msg.innerHTML = "READY";
+scanLock = false;
+lastScannedADM = "";
 }, 5000);
- 
+
 })
 .catch(error => {
- 
- 
+
+
             msg.innerHTML = "ERROR: " + error;
- 
+
             scanLock = false;
             lastScannedADM = "";
- 
+
           });
- 
+
         }
- 
+
       }
     );
- 
+
   }
- 
+
   catch(e){
     alert("CAMERA ERROR: " + e.message);
   }
- 
+
 };
- 
- 
+
 </script>
- 
+
 </body>
 </html>
- 
-
