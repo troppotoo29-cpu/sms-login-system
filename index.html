@@ -34,37 +34,68 @@ object-fit:cover;
 }
  
 button{
-padding:15px 20px;
+padding:15px 25px;
 font-size:18px;
-background:#0b57d0;
+font-weight:bold;
+background:#1565c0;
 color:white;
 border:none;
 border-radius:10px;
 cursor:pointer;
-margin-top:20px;
+margin:8px;
+transition:0.3s;
 }
- 
+
+button:hover{
+background:#0d47a1;
+transform:scale(1.05);
+}
+
 #msg{
 margin-top:20px;
-font-size:20px;
+padding:15px;
+font-size:22px;
 font-weight:bold;
-color:#0b57d0;
+color:#1565c0;
+background:white;
+border-radius:10px;
+box-shadow:0 2px 8px rgba(0,0,0,.2);
+max-width:450px;
+margin-left:auto;
+margin-right:auto;
 word-wrap:break-word;
 }
- 
+
 iframe{
 display:none;
 }
- 
 </style>
  
 </head>
  
 <body>
  
-<h2>QR Attendance Scanner</h2>
+<h2>SMART JUNIOR SCHOOL</h2>
+
+<h3>AI ATTENDANCE SYSTEM</h3>
  
-<video id="video" autoplay playsinline></video>
+<div
+style="
+background:white;
+padding:20px;
+border-radius:15px;
+max-width:500px;
+margin:auto;
+box-shadow:0 3px 10px rgba(0,0,0,.25);
+">
+
+<video
+id="video"
+autoplay
+playsinline>
+</video>
+
+</div>
  
 <br>
  
@@ -78,6 +109,63 @@ LOGOUT MODE
  
 <div id="modeDisplay">
 Current Mode: LOGIN
+ <br><br>
+
+<div
+style="
+background:white;
+padding:15px;
+border-radius:10px;
+max-width:450px;
+margin:auto;
+box-shadow:0 2px 8px rgba(0,0,0,.2);
+">
+
+<h3>Recognition Method</h3>
+
+<label>
+
+<input
+type="radio"
+name="recognition"
+value="QR"
+checked>
+
+QR ONLY
+
+</label>
+
+<br><br>
+
+<label>
+
+<input
+type="radio"
+name="recognition"
+value="FACE"
+disabled>
+
+FACE ONLY
+(Coming Soon)
+
+</label>
+
+<br><br>
+
+<label>
+
+<input
+type="radio"
+name="recognition"
+value="BOTH"
+disabled>
+
+FACE + QR
+(Coming Soon)
+
+</label>
+
+</div>
 </div>
  
 <br>
@@ -86,8 +174,22 @@ Current Mode: LOGIN
 START CAMERA
 </button>
  
-<div id="msg">
-Ready
+<div
+id="msg"
+style="
+margin-top:20px;
+padding:15px;
+background:white;
+border-radius:10px;
+font-size:22px;
+font-weight:bold;
+color:#1565c0;
+box-shadow:0 2px 8px rgba(0,0,0,.2);
+max-width:450px;
+margin-left:auto;
+margin-right:auto;
+">
+READY
 </div>
  
 <iframe name="hiddenFrame"></iframe>
