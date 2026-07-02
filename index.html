@@ -173,13 +173,12 @@ startBtn.onclick = async function(){
           beep.currentTime = 0;
           beep.play().catch(() => {});
 
-  fetch("https://script.google.com/macros/s/AKfycbztWr0XQPBjlDUKdqTbANnOMldtXZhE9576usAwQ0oHzls8QxA3haQYZuqFea4eTN1ZUg/exec", {
-  method: "POST",
-  body: new URLSearchParams({
-    adm: adm,
-    mode: currentMode,
-    method: "QR"
-  })
+          fetch("https://script.google.com/macros/s/AKfycbztWr0XQPBjlDUKdqTbANnOMldtXZhE9576usAwQ0oHzls8QxA3haQYZuqFea4eTN1ZUg/exec", {
+method: "POST",
+body: new URLSearchParams({
+adm: adm,
+mode: currentMode
+})
 })
 .then(r => r.text())
 .then(response => {
