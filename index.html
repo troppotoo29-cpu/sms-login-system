@@ -139,14 +139,7 @@ QR ONLY
 
 <label>
 
-<input
-type="radio"
-name="recognition"
-value="FACE"
-disabled>
 
-FACE ONLY
-(Coming Soon)
 
 </label>
 
@@ -154,14 +147,6 @@ FACE ONLY
 
 <label>
 
-<input
-type="radio"
-name="recognition"
-value="BOTH"
-disabled>
-
-FACE + QR
-(Coming Soon)
 
 </label>
 
@@ -254,9 +239,26 @@ startBtn.onclick = async function(){
  
     msg.innerHTML = "Scanning...";
  
-    const codeReader = new ZXing.BrowserQRCodeReader();
- 
-    codeReader.decodeFromVideoDevice(
+   const method =
+document.querySelector(
+'input[name="recognition"]:checked'
+).value;
+
+if(method=="QR"){
+
+    startQRScanner();
+
+}
+else if(method=="FACE"){
+
+    startFaceRecognition();
+
+}
+else{
+
+    startFaceAndQR();
+
+}
       null,
       video,
       (result, err) => {
@@ -288,9 +290,15 @@ lastScanTime = now;
  
         fetch("https://script.google.com/macros/s/AKfycbxSs7ncwq_OyAzSDpLLllmCU_IRACgJ1yGXZqXuwAfbEkJ38dopCDUtYbH6mWMzuRdi4A/exec", {
 method: "POST",
-body: new URLSearchParams({
-adm: adm,
-mode: currentMode
+const method =
+document.querySelector(
+'input[name="recognition"]:checked'
+).value;
+
+body:new URLSearchParams({
+    adm:adm,
+    mode:currentMode,
+    method:method
 })
 })
 .then(r => r.text())
