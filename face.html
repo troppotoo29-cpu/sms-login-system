@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Face Registration</title>
+
+<style>
+
+body{
+font-family:Arial,sans-serif;
+background:#f2f2f2;
+text-align:center;
+padding:20px;
+}
+
+.container{
+max-width:600px;
+margin:auto;
+background:white;
+padding:20px;
+border-radius:15px;
+box-shadow:0 2px 10px rgba(0,0,0,.2);
+}
+
+h2{
+color:#1565c0;
+}
+
+input{
+width:90%;
+padding:12px;
+font-size:18px;
+margin:10px 0;
+border:1px solid #ccc;
+border-radius:8px;
+}
+
+video{
+width:100%;
+max-width:450px;
+height:340px;
+background:black;
+border-radius:12px;
+border:3px solid #1565c0;
+object-fit:cover;
+}
+
+canvas{
+display:none;
+}
+
+img{
+width:220px;
+margin-top:15px;
+border-radius:10px;
+border:3px solid #1565c0;
+display:none;
+}
+
+button{
+padding:12px 25px;
+margin:8px;
+font-size:17px;
+border:none;
+border-radius:8px;
+background:#1565c0;
+color:white;
+cursor:pointer;
+}
+
+button:hover{
+background:#0d47a1;
+}
+
+#status{
+margin-top:15px;
+font-size:18px;
+font-weight:bold;
+color:#1565c0;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>SMART JUNIOR SCHOOL</h2>
+
+<h3>Face Registration</h3>
+
+<input
+type="text"
+id="adm"
+placeholder="Enter Admission Number">
+
+<br>
+
+<button id="startCamera">
+START CAMERA
+</button>
+
+<button id="captureFace">
+CAPTURE FACE
+</button>
+
+<br><br>
+
+<video
+id="video"
+autoplay
+playsinline>
+</video>
+
+<canvas id="canvas"></canvas>
+
+<br>
+
+<img id="photo">
+
+<div id="status">
+READY
+</div>
+
+</div>
+
+<script>
+
+const video=document.getElementById("video");
+const canvas=document.getElementById("canvas");
+const photo=document.getElementById("photo");
+const status=document.getElementById("status");
+
+let stream=null;
+
+document.getElementById("startCamera").onclick=async()=>{
+
+try{
+
+stream=
+await navigator.mediaDevices.getUserMedia({
+
+video:{
+width:{ideal:1280},
+height:{ideal:720},
+facingMode:"user"
+
+},
+
+audio:false
+
+});
+
+video.srcObject=stream;
+
+await video.play();
+
+status.innerHTML="Camera Started";
+
+}
+catch(e){
+
+status.innerHTML="Camera Error : "+e.message;
+
+}
+
+};
+
+document.getElementById("captureFace").onclick=()=>{
+
+const adm=document.getElementById("adm").value.trim();
+
+if(adm==""){
+
+alert("Enter Admission Number");
+
+return;
+
+}
+
+canvas.width=video.videoWidth;
+
+canvas.height=video.videoHeight;
+
+const ctx=canvas.getContext("2d");
+
+ctx.drawImage(video,0,0);
+
+const image=canvas.toDataURL("image/jpeg",0.9);
+
+photo.src=image;
+
+photo.style.display="block";
+
+status.innerHTML="Face Captured Successfully";
+
+console.log(image);
+
+// NEXT STEP
+// image will be sent to Apps Script
+// face descriptor will also be generated
+
+};
+
+</script>
+
+</body>
+
+</html>
