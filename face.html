@@ -5,7 +5,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>Face Registration</title>
+<title>Face Registration</title
+<script defer src="https://cdn.jsdelivr.net/npm/face-api.js"></script>                      
 
 <style>
 
@@ -138,18 +139,44 @@ const status=document.getElementById("status");
 
 let stream=null;
 
+// Load Face API models
+async function loadModels(){
+
+try{
+
+status.innerHTML="Loading AI Models...";
+
+const MODEL_URL="models";
+
+await faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL);
+await faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL);
+await faceapi.nets.faceRecognitionNet.loadFromUri(MODEL_URL);
+
+status.innerHTML="AI Ready";
+
+}
+catch(err){
+
+status.innerHTML="Model Loading Failed";
+console.error(err);
+
+}
+
+}
+
+loadModels();
+
+// Start Camera
 document.getElementById("startCamera").onclick=async()=>{
 
 try{
 
-stream=
-await navigator.mediaDevices.getUserMedia({
+stream=await navigator.mediaDevices.getUserMedia({
 
 video:{
 width:{ideal:1280},
 height:{ideal:720},
 facingMode:"user"
-
 },
 
 audio:false
@@ -171,20 +198,35 @@ status.innerHTML="Camera Error : "+e.message;
 
 };
 
-document.getElementById("captureFace").onclick=()=>{
+// Capture Face
+document.getElementById("captureFace").onclick=async()=>{
 
 const adm=document.getElementById("adm").value.trim();
 
 if(adm==""){
 
 alert("Enter Admission Number");
-
 return;
 
 }
 
-canvas.width=video.videoWidth;
+const detection=await faceapi
+.detectSingleFace(
+video,
+new faceapi.TinyFaceDetectorOptions()
+)
+.withFaceLandmarks()
+.withFaceDescriptor();
 
+if(!detection){
+
+status.innerHTML="No Face Detected";
+return;
+
+}
+
+// Capture Image
+canvas.width=video.videoWidth;
 canvas.height=video.videoHeight;
 
 const ctx=canvas.getContext("2d");
@@ -194,16 +236,30 @@ ctx.drawImage(video,0,0);
 const image=canvas.toDataURL("image/jpeg",0.9);
 
 photo.src=image;
-
 photo.style.display="block";
+
+// Face Descriptor
+const descriptor=Array.from(detection.descriptor);
+
+console.log("IMAGE:",image);
+console.log("DESCRIPTOR:",descriptor);
 
 status.innerHTML="Face Captured Successfully";
 
-console.log(image);
+// Save to Apps Script later
+/*
+google.script.run
+.withSuccessHandler(function(){
 
-// NEXT STEP
-// image will be sent to Apps Script
-// face descriptor will also be generated
+status.innerHTML="Registration Saved";
+
+})
+.saveFace(
+adm,
+image,
+JSON.stringify(descriptor)
+);
+*/
 
 };
 
