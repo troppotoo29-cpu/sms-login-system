@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>POS Barcode Scanner</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@zxing/library@0.20.0/umd/index.min.js"></script>
+
+<style>
+
+body{
+font-family:Arial;
+text-align:center;
+background:#f4f6f9;
+padding:10px;
+}
+
+video{
+
+width:100%;
+max-width:450px;
+height:320px;
+background:black;
+border:3px solid #1565c0;
+border-radius:10px;
+
+}
+
+button{
+
+padding:15px;
+width:100%;
+font-size:18px;
+background:#1565c0;
+color:white;
+border:none;
+border-radius:8px;
+margin-top:10px;
+
+}
+
+#msg{
+
+font-size:18px;
+font-weight:bold;
+color:#1565c0;
+margin-top:10px;
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<h3>
+📷 POS BARCODE SCANNER
+</h3>
+
+
+<video id="video" autoplay playsinline></video>
+
+
+<button id="startBtn">
+🎥 START CAMERA
+</button>
+
+
+<div id="msg">
+READY
+</div>
+
+
+<script>
+
+
+const video=document.getElementById("video");
+
+const msg=document.getElementById("msg");
+
+const startBtn=document.getElementById("startBtn");
+
+
+const beep=new Audio(
+"https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg"
+);
+
+
+let scanLock=false;
+
+let lastCode="";
+
+
+startBtn.onclick=async function(){
+
+
+try{
+
+
+const stream = await navigator.mediaDevices.getUserMedia({
+
+video:{
+facingMode:"environment",
+width:{ideal:1280},
+height:{ideal:720}
+},
+
+audio:false
+
+});
+
+
+video.srcObject=stream;
+
+await video.play();
+
+
+msg.innerHTML="SCANNING...";
+
+
+const reader=new ZXing.BrowserMultiFormatReader();
+
+
+reader.decodeFromVideoDevice(
+
+null,
+
+video,
+
+(result,error)=>{
+
+
+if(result){
+
+
+let barcode=result.getText().trim();
+
+
+
+if(scanLock && barcode==lastCode){
+
+return;
+
+}
+
+
+
+scanLock=true;
+
+lastCode=barcode;
+
+
+
+beep.currentTime=0;
+
+beep.play().catch(()=>{});
+
+
+
+msg.innerHTML="FOUND : "+barcode;
+
+
+
+// SEND TO POS
+
+window.parent.postMessage({
+
+type:"POS_BARCODE",
+
+barcode:barcode
+
+
+},"*");
+
+
+
+setTimeout(()=>{
+
+scanLock=false;
+
+lastCode="";
+
+msg.innerHTML="SCANNING...";
+
+
+},1000);
+
+
+
+}
+
+
+
+}
+
+);
+
+
+}
+
+catch(e){
+
+msg.innerHTML=
+"CAMERA ERROR : "+e.message;
+
+
+}
+
+
+};
+
+
+</script>
+
+
+</body>
+
+</html>
