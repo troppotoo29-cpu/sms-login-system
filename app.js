@@ -271,6 +271,7 @@ tbody.innerHTML="<tr><td colspan='5'>No Items</td></tr>";
 document.getElementById("grandTotal").innerHTML=
 
 total.toFixed(2);
+  calculateBalance();
 
 }
 
@@ -279,5 +280,62 @@ function removeItem(barcode){
 cart=cart.filter(x=>x.barcode!=barcode);
 
 drawCart();
+
+}
+//===============================
+// PAYMENT
+//===============================
+
+document.addEventListener("DOMContentLoaded",()=>{
+
+const paid=document.getElementById("amountPaid");
+
+if(paid){
+
+paid.addEventListener("keyup",calculateBalance);
+
+paid.addEventListener("change",calculateBalance);
+
+}
+
+});
+
+function calculateBalance(){
+
+const total=Number(
+
+document.getElementById("grandTotal").innerHTML
+
+);
+
+const paid=Number(
+
+document.getElementById("amountPaid").value
+
+);
+
+const balance=paid-total;
+
+if(isNaN(paid)){
+
+document.getElementById("change").value="";
+
+return;
+
+}
+
+if(balance<0){
+
+document.getElementById("change").value=
+
+"Balance Due: KSh "+Math.abs(balance).toFixed(2);
+
+}else{
+
+document.getElementById("change").value=
+
+"KSh "+balance.toFixed(2);
+
+}
 
 }
