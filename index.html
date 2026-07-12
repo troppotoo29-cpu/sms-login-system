@@ -1,221 +1,198 @@
-
 <!DOCTYPE html>
 <html>
 
 <head>
 
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>QR Attendance Scanner</title>
+<title>SUPERMARKET POS PRO</title>
 
-<script src="https://cdn.jsdelivr.net/npm/@zxing/library@0.20.0/umd/index.min.js"></script>
-
-<style>
-
-body{
-font-family:Arial;
-text-align:center;
-background:#f2f2f2;
-padding:20px;
-}
-
-h2{
-color:#0b57d0;
-}
-
-video{
-width:100%;
-max-width:450px;
-height:320px;
-border:3px solid #0b57d0;
-border-radius:12px;
-background:black;
-object-fit:cover;
-}
-
-button{
-padding:15px 20px;
-font-size:18px;
-background:#0b57d0;
-color:white;
-border:none;
-border-radius:10px;
-cursor:pointer;
-margin-top:20px;
-}
-
-#msg{
-margin-top:20px;
-font-size:20px;
-font-weight:bold;
-color:#0b57d0;
-word-wrap:break-word;
-}
-
-iframe{
-display:none;
-}
-
-</style>
+<link rel="stylesheet" href="style.css">
 
 </head>
 
 <body>
 
-<h2>QR Attendance Scanner</h2>
+<div class="header">
 
-<video id="video" autoplay playsinline></video>
+<div class="logo">
 
-<br>
+🛒 SUPERMARKET POS PRO
 
-<button onclick="setMode('LOGIN')">
-LOGIN MODE
-</button>
-
-<button onclick="setMode('LOGOUT')">
-LOGOUT MODE
-</button>
-
-<div id="modeDisplay">
-Current Mode: LOGIN
 </div>
 
-<br>
+<div class="cashier">
 
-<button id="startBtn">
-START CAMERA
-</button>
+Cashier :
+<span id="cashierName">
 
-<div id="msg">
-Ready
+Not Logged In
+
+</span>
+
 </div>
 
-<iframe name="hiddenFrame"></iframe>
+</div>
 
-<form
-id="hiddenForm"
-target="hiddenFrame"
-method="POST"
-action="https://script.google.com/macros/s/AKfycbztWr0XQPBjlDUKdqTbANnOMldtXZhE9576usAwQ0oHzls8QxA3haQYZuqFea4eTN1ZUg/exec">
+
+
+<div class="mainContainer">
+
+
+
+<div class="leftPanel">
+
+<h2>📷 LIVE BARCODE SCANNER</h2>
+
+<div id="scannerHolder">
+
+<iframe
+src="posScanner.html"
+frameborder="0">
+</iframe>
+
+</div>
+
+</div>
+
+
+
+
+<div class="rightPanel">
+
+<h2>Shopping Cart</h2>
 
 <input
-type="hidden"
-name="adm"
-id="hiddenAdm">
+id="search"
+type="text"
+placeholder="Search Product...">
 
-</form>
-
-<script>
-
-const startBtn = document.getElementById("startBtn");
-const msg = document.getElementById("msg");
-const video = document.getElementById("video");
-
-// 🔊 beep ONLY ONCE
-const beep = new Audio(
-  "https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg"
-);
-
-let scanLock = false;
-let lastScannedADM = "";
-
-let currentMode = "LOGIN";
-function setMode(mode){
-
-  currentMode = mode;
-
-  document.getElementById("modeDisplay").innerHTML =
-    "Current Mode: " + mode;
-
-}
-startBtn.onclick = async function(){
-
-  try{
-
-  const stream = await navigator.mediaDevices.getUserMedia({
-  video: {
-    facingMode: "environment",
-    width: { ideal: 1280 },
-    height: { ideal: 720 }
-  },
-  audio: false
-});
-
-    video.srcObject = stream;
-    await video.play();
-    msg.innerHTML =
-  "Camera Started: " +
-  video.videoWidth +
-  "x" +
-  video.videoHeight;
-
-    msg.innerHTML = "Scanning...";
-
-    const codeReader = new ZXing.BrowserQRCodeReader();
-
-    codeReader.decodeFromVideoDevice(
-      null,
-      video,
-      (result, err) => {
-
-        if(result){
-
-          const adm = result.getText().trim();
-
-          if(scanLock && lastScannedADM === adm){
-            return;
-          }
-
-          scanLock = true;
-          lastScannedADM = adm;
-
-          // 🔊 beep
-          beep.currentTime = 0;
-          beep.play().catch(() => {});
-
-          fetch("https://script.google.com/macros/s/AKfycbztWr0XQPBjlDUKdqTbANnOMldtXZhE9576usAwQ0oHzls8QxA3haQYZuqFea4eTN1ZUg/exec", {
-method: "POST",
-body: new URLSearchParams({
-adm: adm,
-mode: currentMode
-})
-})
-.then(r => r.text())
-.then(response => {
-
-msg.innerHTML = response;
-
-setTimeout(() => {
-msg.innerHTML = "READY";
-scanLock = false;
-lastScannedADM = "";
-}, 5000);
-
-})
-.catch(error => {
+<div id="results"></div>
 
 
-            msg.innerHTML = "ERROR: " + error;
 
-            scanLock = false;
-            lastScannedADM = "";
+<table>
 
-          });
+<thead>
 
-        }
+<tr>
 
-      }
-    );
+<th>Product</th>
 
-  }
+<th>Qty</th>
 
-  catch(e){
-    alert("CAMERA ERROR: " + e.message);
-  }
+<th>Price</th>
 
-};
+<th>Total</th>
 
-</script>
+<th>Remove</th>
+
+</tr>
+
+</thead>
+
+<tbody id="cart">
+
+<tr>
+
+<td colspan="5">
+
+No Items
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+
+
+<div class="summary">
+
+<h2>
+
+TOTAL :
+KSh
+
+<span id="grandTotal">
+
+0.00
+
+</span>
+
+</h2>
+
+</div>
+
+
+
+<div class="payment">
+
+<label>
+
+Amount Paid
+
+</label>
+
+<input
+id="amountPaid"
+type="number">
+
+
+
+<label>
+
+Payment Method
+
+</label>
+
+<select id="paymentMethod">
+
+<option>Cash</option>
+
+<option>Mpesa</option>
+
+<option>Card</option>
+
+</select>
+
+
+
+<label>
+
+Balance
+
+</label>
+
+<input
+id="change"
+readonly>
+
+
+
+<button id="completeSale">
+
+COMPLETE SALE
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<script src="api.js"></script>
+
+<script src="scanner.js"></script>
+
+<script src="app.js"></script>
 
 </body>
+
 </html>
