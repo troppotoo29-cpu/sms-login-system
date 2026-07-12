@@ -428,20 +428,13 @@ async function completeSale(){
     alert("Sending sale to server...");
 const res = await fetch(
 
-    API_URL,
+    API_URL + "?action=completeSale",
 
     {
 
         method:"POST",
 
-        headers:{
-            "Content-Type":"application/json"
-        },
-
-        body:JSON.stringify({
-            action:"completeSale",
-            ...sale
-        })
+        body:JSON.stringify(sale)
 
     }
 
