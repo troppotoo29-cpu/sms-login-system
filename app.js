@@ -425,9 +425,9 @@ async function completeSale(){
         items:cart
 
     };
-    alert("Sending sale to server...");
-const res = await fetch(
 
+const res = await fetch(
+console.log("STATUS:", res.status);
     API_URL + "?action=completeSale",
 
     {
@@ -441,6 +441,7 @@ const res = await fetch(
 );
     alert("Server responded");
    const text = await res.text();
+    console.log("SERVER:", text);
 
 alert(text);
 
