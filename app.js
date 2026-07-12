@@ -363,6 +363,7 @@ document.getElementById("change").value=
 //=================================
 
 async function completeSale(){
+    alert("COMPLETE SALE BUTTON WORKING");
 
     if(cart.length==0){
 
