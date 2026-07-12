@@ -339,3 +339,111 @@ document.getElementById("change").value=
 }
 
 }
+//=================================
+// COMPLETE SALE
+//=================================
+
+async function completeSale(){
+
+    if(cart.length==0){
+
+        alert("Cart is empty.");
+
+        return;
+
+    }
+
+    const paid = Number(
+        document.getElementById("amountPaid").value
+    );
+
+    const total = Number(
+        document.getElementById("grandTotal").innerHTML
+    );
+
+    if(paid < total){
+
+        alert("Amount paid is less than total.");
+
+        return;
+
+    }
+
+    const payment =
+        document.getElementById("paymentMethod").value;
+
+    const balance = paid-total;
+
+    // add buying price for every item
+    for(let i=0;i<cart.length;i++){
+
+        const r = await fetch(
+            API_URL+
+            "?action=getProduct&barcode="+
+            cart[i].barcode
+        );
+
+        const p = await r.json();
+
+        cart[i].buying = p.buying;
+
+    }
+
+    const sale={
+
+        cashier:
+        document.getElementById("cashierName").innerHTML,
+
+        total:total,
+
+        paid:paid,
+
+        balance:balance,
+
+        payment:payment,
+
+        items:cart
+
+    };
+
+    const res = await fetch(
+
+        API_URL+"?action=completeSale",
+
+        {
+
+            method:"POST",
+
+            headers:{
+                "Content-Type":"application/json"
+            },
+
+            body:JSON.stringify(sale)
+
+        }
+
+    );
+
+    const result = await res.json();
+
+    if(result.success){
+
+        alert("Sale completed successfully.");
+
+        printReceipt(sale);
+
+        cart=[];
+
+        drawCart();
+
+        document.getElementById("amountPaid").value="";
+
+        document.getElementById("change").value="";
+
+    }else{
+
+        alert(result.message);
+
+    }
+
+}
