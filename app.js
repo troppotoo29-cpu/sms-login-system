@@ -79,3 +79,88 @@ async function login() {
     }
 
 }
+//===============================
+// LIVE PRODUCT SEARCH
+//===============================
+
+document.addEventListener("DOMContentLoaded",()=>{
+
+const txt=document.getElementById("search");
+
+if(txt){
+
+txt.addEventListener("keyup",searchProducts);
+
+}
+
+});
+
+async function searchProducts(){
+
+const keyword=document.getElementById("search").value.trim();
+
+if(keyword==""){
+
+document.getElementById("results").innerHTML="";
+
+return;
+
+}
+
+const res=await fetch(
+
+API_URL+
+
+"?action=search&search="+
+
+encodeURIComponent(keyword)
+
+);
+
+const products=await res.json();
+
+showProducts(products);
+
+}
+
+function showProducts(products){
+
+let html="";
+
+if(products.length==0){
+
+html="<div style='padding:10px'>No products found</div>";
+
+}else{
+
+products.forEach(p=>{
+
+html+=`
+
+<div class="productItem"
+
+style="padding:10px;
+border-bottom:1px solid #ddd;
+cursor:pointer;"
+
+onclick="addProduct('${p.barcode}')">
+
+<b>${p.product}</b><br>
+
+Barcode : ${p.barcode}<br>
+
+Price : KSh ${p.selling}<br>
+
+Stock : ${p.stock}
+
+</div>
+
+`;
+
+});
+
+}
+
+document.getElementById("results").innerHTML=html;
+
+}
