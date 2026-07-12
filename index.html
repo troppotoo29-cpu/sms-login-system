@@ -39,17 +39,62 @@ Not Logged In
 
 <div class="mainContainer">
 
+<!-- LOGIN PAGE -->
 
+<div id="loginPage">
+
+<div class="loginBox">
+
+<h1>
+
+🛒 SUPERMARKET POS PRO
+
+</h1>
+
+<input
+id="username"
+placeholder="Username">
+
+<input
+id="password"
+type="password"
+placeholder="Password">
+
+<button id="loginBtn">
+
+LOGIN
+
+</button>
+
+<div id="loginMsg">
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<!-- DASHBOARD -->
+
+<div
+id="dashboard"
+class="mainContainer"
+style="display:none;">
 
 <div class="leftPanel">
 
-<h2>📷 LIVE BARCODE SCANNER</h2>
+<h2>
+
+📷 LIVE BARCODE SCANNER
+
+</h2>
 
 <div id="scannerHolder">
 
 <iframe
-src="posScanner.html"
-frameborder="0">
+src="posScanner.html">
 </iframe>
 
 </div>
@@ -58,19 +103,19 @@ frameborder="0">
 
 
 
-
 <div class="rightPanel">
 
-<h2>Shopping Cart</h2>
+<h2>
+
+Shopping Cart
+
+</h2>
 
 <input
 id="search"
-type="text"
-placeholder="Search Product...">
+placeholder="Search Product">
 
 <div id="results"></div>
-
-
 
 <table>
 
@@ -86,7 +131,7 @@ placeholder="Search Product...">
 
 <th>Total</th>
 
-<th>Remove</th>
+<th>X</th>
 
 </tr>
 
@@ -108,11 +153,7 @@ No Items
 
 </table>
 
-
-
 <div class="summary">
-
-<h2>
 
 TOTAL :
 KSh
@@ -123,31 +164,13 @@ KSh
 
 </span>
 
-</h2>
-
 </div>
-
-
 
 <div class="payment">
 
-<label>
-
-Amount Paid
-
-</label>
-
 <input
 id="amountPaid"
-type="number">
-
-
-
-<label>
-
-Payment Method
-
-</label>
+placeholder="Amount Paid">
 
 <select id="paymentMethod">
 
@@ -159,19 +182,10 @@ Payment Method
 
 </select>
 
-
-
-<label>
-
-Balance
-
-</label>
-
 <input
 id="change"
+placeholder="Balance"
 readonly>
-
-
 
 <button id="completeSale">
 
@@ -184,8 +198,6 @@ COMPLETE SALE
 </div>
 
 </div>
-
-
 
 <script src="api.js"></script>
 
