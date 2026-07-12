@@ -164,3 +164,120 @@ Stock : ${p.stock}
 document.getElementById("results").innerHTML=html;
 
 }
+//===============================
+// SHOPPING CART
+//===============================
+
+let cart=[];
+
+async function addProduct(barcode){
+
+const res=await fetch(
+
+API_URL+
+
+"?action=getProduct&barcode="+barcode
+
+);
+
+const p=await res.json();
+
+if(!p){
+
+alert("Product not found");
+
+return;
+
+}
+
+let item=cart.find(x=>x.barcode==p.barcode);
+
+if(item){
+
+item.qty++;
+
+}else{
+
+cart.push({
+
+barcode:p.barcode,
+
+product:p.product,
+
+price:Number(p.selling),
+
+qty:1
+
+});
+
+}
+
+drawCart();
+
+document.getElementById("results").innerHTML="";
+
+document.getElementById("search").value="";
+
+}
+
+function drawCart(){
+
+const tbody=document.getElementById("cart");
+
+tbody.innerHTML="";
+
+let total=0;
+
+cart.forEach(item=>{
+
+const line=item.qty*item.price;
+
+total+=line;
+
+tbody.innerHTML+=`
+
+<tr>
+
+<td>${item.product}</td>
+
+<td>${item.qty}</td>
+
+<td>${item.price}</td>
+
+<td>${line}</td>
+
+<td>
+
+<button onclick="removeItem('${item.barcode}')">
+
+X
+
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+if(cart.length==0){
+
+tbody.innerHTML="<tr><td colspan='5'>No Items</td></tr>";
+
+}
+
+document.getElementById("grandTotal").innerHTML=
+
+total.toFixed(2);
+
+}
+
+function removeItem(barcode){
+
+cart=cart.filter(x=>x.barcode!=barcode);
+
+drawCart();
+
+}
