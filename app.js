@@ -34,66 +34,93 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 });
-async function login() {
+async function login(){
 
     const username =
-        document.getElementById("username").value.trim();
+    document.getElementById("username").value.trim();
 
     const password =
-        document.getElementById("password").value.trim();
+    document.getElementById("password").value.trim();
 
-    if (username == "" || password == "") {
+
+    if(username=="" || password==""){
 
         document.getElementById("loginMsg").innerHTML =
-            "Enter Username and Password";
+        "Enter Username and Password";
 
         return;
 
     }
 
+
     document.getElementById("loginMsg").innerHTML =
-        "Logging in...";
+    "Logging in...";
 
-    try {
 
-        const response = await fetch(
+    try{
 
-            API_URL +
 
-            "?action=login" +
+        const url =
+        API_URL +
+        "?action=login" +
+        "&username=" +
+        encodeURIComponent(username) +
+        "&password=" +
+        encodeURIComponent(password);
 
-            "&username=" + encodeURIComponent(username) +
 
-            "&password=" + encodeURIComponent(password)
+        console.log("LOGIN URL:",url);
 
-        );
 
-        const data = await response.json();
+        const response = await fetch(url);
 
-        if (data.success) {
+
+        const text = await response.text();
+
+
+        console.log("SERVER RESPONSE:",text);
+
+
+        const data = JSON.parse(text);
+
+
+
+        if(data.success){
+
 
             document.getElementById("cashierName").innerHTML =
-                data.fullname;
+            data.fullname;
+
 
             document.getElementById("loginPage").style.display =
-                "none";
+            "none";
+
 
             document.getElementById("dashboard").style.display =
-                "flex";
+            "flex";
 
-        } else {
+
+        }
+        else{
+
 
             document.getElementById("loginMsg").innerHTML =
-                data.message;
+            data.message;
+
 
         }
 
-    } catch (err) {
 
-        document.getElementById("loginMsg").innerHTML =
-            "Cannot connect to server";
+    }
+    catch(err){
+
 
         console.log(err);
+
+
+        document.getElementById("loginMsg").innerHTML =
+        "Cannot connect to server";
+
 
     }
 
