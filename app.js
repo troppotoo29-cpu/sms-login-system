@@ -6,15 +6,34 @@
 // CHANGE THIS ONLY IF YOUR WEB APP URL CHANGES
 const API_URL =
 "https://script.google.com/macros/s/AKfycbxToEX1x0KqaV7YPk9B5J2jfPDDvkRDGJry8KmKo9ZqA80j4v4CHw0IMifTDU-avYYu/exec";
-
 document.addEventListener("DOMContentLoaded", function () {
 
-    document
-        .getElementById("loginBtn")
-        .addEventListener("click", login);
+    const loginButton =
+    document.getElementById("loginBtn");
+
+    if(loginButton){
+
+        loginButton.addEventListener(
+            "click",
+            login
+        );
+
+    }
+
+
+    const saleButton =
+    document.getElementById("completeSale");
+
+    if(saleButton){
+
+        saleButton.addEventListener(
+            "click",
+            completeSale
+        );
+
+    }
 
 });
-
 async function login() {
 
     const username =
