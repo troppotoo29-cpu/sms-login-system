@@ -5,7 +5,7 @@
 
 // CHANGE THIS ONLY IF YOUR WEB APP URL CHANGES
 const API_URL =
-"https://script.google.com/macros/s/AKfycbzanI9vPbSE3Mo9XoeZxmccKvITFZE76CQXSu_HDZsz0KMoKSSizG4MO9plUCWX7mdV/exec";
+"https://script.google.com/macros/s/AKfycbxToEX1x0KqaV7YPk9B5J2jfPDDvkRDGJry8KmKo9ZqA80j4v4CHw0IMifTDU-avYYu/exec";
 
 document.addEventListener("DOMContentLoaded", function () {
 
