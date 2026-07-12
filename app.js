@@ -425,6 +425,7 @@ async function completeSale(){
         items:cart
 
     };
+    alert("Sending sale to server...");
 
     const res = await fetch(
 
@@ -444,7 +445,11 @@ async function completeSale(){
 
     );
 
-    const result = await res.json();
+   const text = await res.text();
+
+alert(text);
+
+const result = JSON.parse(text);
 
     if(result.success){
 
