@@ -454,18 +454,27 @@ async function completeSale(){
     };
 
 const res = await fetch(
-console.log("STATUS:", res.status);
+
     API_URL + "?action=completeSale",
 
     {
-
-        method:"POST",
-
-        body:JSON.stringify(sale)
-
+        method: "POST",
+        body: JSON.stringify(sale)
     }
 
 );
+
+console.log("STATUS:", res.status);
+
+alert("Server responded");
+
+const text = await res.text();
+
+console.log("SERVER:", text);
+
+alert(text);
+
+const result = JSON.parse(text);
     alert("Server responded");
    const text = await res.text();
     console.log("SERVER:", text);
