@@ -446,6 +446,7 @@ const res = await fetch(
     }
 
 );
+    alert("Server responded");
    const text = await res.text();
 
 alert(text);
