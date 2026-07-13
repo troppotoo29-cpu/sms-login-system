@@ -492,3 +492,4 @@ if(result.success){
     alert(result.message);
 
 }
+}
