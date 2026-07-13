@@ -390,7 +390,6 @@ document.getElementById("change").value=
 //=================================
 
 async function completeSale(){
-    alert("COMPLETE SALE BUTTON WORKING");
 
     if(cart.length==0){
 
@@ -459,27 +458,31 @@ const res = await fetch(
         body:JSON.stringify(sale)
     }
 );
-
 const result = await res.json();
 
 if(result.success){
 
     alert("Sale Completed Successfully");
 
-    printReceipt(sale);
+    // Print receipt only if the function exists
+    if(typeof printReceipt === "function"){
+        printReceipt(sale);
+    }
 
     // Clear cart
     cart = [];
-
     drawCart();
 
-    // Clear payment fields
+    // Clear payment
     document.getElementById("amountPaid").value = "";
     document.getElementById("change").value = "";
 
     // Clear search
     document.getElementById("search").value = "";
     document.getElementById("results").innerHTML = "";
+
+    // Reset total display
+    calculateBalance();
 
     // Ready for next customer
     document.getElementById("search").focus();
@@ -488,5 +491,4 @@ if(result.success){
 
     alert(result.message);
 
-}
 }
