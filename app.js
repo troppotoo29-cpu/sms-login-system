@@ -452,55 +452,38 @@ async function completeSale(){
         items:cart
 
     };
-
 const res = await fetch(
-
     API_URL + "?action=completeSale",
-
     {
         method: "POST",
         body: JSON.stringify(sale)
     }
-
 );
 
 console.log("STATUS:", res.status);
-
-alert("Server responded");
 
 const text = await res.text();
 
 console.log("SERVER:", text);
 
-alert(text);
-
-const result = JSON.parse(text);
-    alert("Server responded");
-   const text = await res.text();
-    console.log("SERVER:", text);
-
-alert(text);
-
 const result = JSON.parse(text);
 
-    if(result.success){
+if(result.success){
 
-        alert("Sale completed successfully.");
+    alert("Sale completed successfully.");
 
-        printReceipt(sale);
+    printReceipt(sale);
 
-        cart=[];
+    cart = [];
 
-        drawCart();
+    drawCart();
 
-        document.getElementById("amountPaid").value="";
+    document.getElementById("amountPaid").value = "";
 
-        document.getElementById("change").value="";
+    document.getElementById("change").value = "";
 
-    }else{
+}else{
 
-        alert(result.message);
-
-    }
+    alert(result.message);
 
 }
