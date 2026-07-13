@@ -455,37 +455,38 @@ async function completeSale(){
 const res = await fetch(
     API_URL + "?action=completeSale",
     {
-        method: "POST",
-        body: JSON.stringify(sale)
+        method:"POST",
+        body:JSON.stringify(sale)
     }
 );
 
-console.log("STATUS:", res.status);
-
-const text = await res.text();
-
-console.log("SERVER:", text);
-
-const result = JSON.parse(text);
+const result = await res.json();
 
 if(result.success){
 
-    alert("Sale completed successfully.");
+    alert("Sale Completed Successfully");
 
     printReceipt(sale);
 
+    // Clear cart
     cart = [];
 
     drawCart();
 
+    // Clear payment fields
     document.getElementById("amountPaid").value = "";
-
     document.getElementById("change").value = "";
+
+    // Clear search
+    document.getElementById("search").value = "";
+    document.getElementById("results").innerHTML = "";
+
+    // Ready for next customer
+    document.getElementById("search").focus();
 
 }else{
 
     alert(result.message);
 
 }
-
 }
