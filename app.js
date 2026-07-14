@@ -243,16 +243,13 @@ if(item){
 item.qty++;
 
 }else{
-
 cart.push({
 
-barcode:p.barcode,
-
-product:p.product,
-
-price:Number(p.selling),
-
-qty:1
+    barcode: p.barcode,
+    product: p.product,
+    price: Number(p.selling),
+    buying: Number(p.buying),   // Store buying price now
+    qty: 1
 
 });
 
@@ -421,19 +418,7 @@ async function completeSale(){
     const balance = paid-total;
 
     // add buying price for every item
-    for(let i=0;i<cart.length;i++){
-
-        const r = await fetch(
-            API_URL+
-            "?action=getProduct&barcode="+
-            cart[i].barcode
-        );
-
-        const p = await r.json();
-
-        cart[i].buying = p.buying;
-
-    }
+    
 
     const sale={
 
