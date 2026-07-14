@@ -350,52 +350,43 @@ border-top:1px solid #ddd;
 padding-top:15px;
 }
 
+.quickStats{
+margin-top:20px;
+border-top:1px solid #ddd;
+padding-top:15px;
+}
+
 .quickStats div{
 padding:8px 0;
 font-size:16px;
 font-weight:bold;
-   /* ===========================================
+border-bottom:1px solid #eee;
+}
+
+/* ===========================================
    PRODUCT CARD
 =========================================== */
 
 #productCard{
-
 margin-top:15px;
-
 padding:15px;
-
 border:2px solid #1565c0;
-
 border-radius:12px;
-
 background:#f8fbff;
-
 text-align:center;
-
 }
 
 #productImage{
-
 font-size:70px;
-
 margin-bottom:10px;
-
 }
 
 .productInfo h3{
-
 color:#1565c0;
-
 margin-bottom:10px;
-
 }
 
 .productInfo p{
-
 font-size:18px;
-
 margin:8px 0;
-
-}
-border-bottom:1px solid #eee;
 }
