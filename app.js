@@ -256,6 +256,14 @@ cart.push({
 }
 
 drawCart();
+    // Update Last Scanned Panel
+document.getElementById("lastBarcode").textContent = p.barcode;
+document.getElementById("lastProduct").textContent = p.product;
+document.getElementById("lastPrice").textContent = p.selling;
+document.getElementById("lastStock").textContent = p.stock;
+
+const item = cart.find(x => x.barcode == p.barcode);
+document.getElementById("lastQty").textContent = item.qty;
 
 document.getElementById("results").innerHTML="";
 
