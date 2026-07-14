@@ -274,6 +274,7 @@ height:100%;
 border:none;
 }
 
+
 #scannerHolder{
 height:650px;
 }
@@ -287,4 +288,71 @@ font-size:36px;
 #completeSale{
 font-size:20px;
 padding:15px;
+}
+/* ===========================================
+   NEW PROFESSIONAL 3 COLUMN LAYOUT
+=========================================== */
+
+.scannerPanel{
+width:22%;
+min-width:320px;
+background:#fff;
+border-radius:12px;
+padding:15px;
+box-shadow:0 2px 10px rgba(0,0,0,.15);
+}
+
+.posPanel{
+width:58%;
+background:#fff;
+border-radius:12px;
+padding:20px;
+box-shadow:0 2px 10px rgba(0,0,0,.15);
+}
+
+.adminPanel{
+width:20%;
+min-width:220px;
+background:#fff;
+border-radius:12px;
+padding:15px;
+box-shadow:0 2px 10px rgba(0,0,0,.15);
+}
+
+.scannerPanel h2,
+.posPanel h2,
+.adminPanel h2{
+color:#1565c0;
+margin-bottom:15px;
+text-align:center;
+}
+
+.adminButton{
+width:100%;
+padding:12px;
+margin-bottom:10px;
+background:#1565c0;
+color:#fff;
+border:none;
+border-radius:8px;
+cursor:pointer;
+font-size:16px;
+font-weight:bold;
+}
+
+.adminButton:hover{
+background:#0d47a1;
+}
+
+.quickStats{
+margin-top:20px;
+border-top:1px solid #ddd;
+padding-top:15px;
+}
+
+.quickStats div{
+padding:8px 0;
+font-size:16px;
+font-weight:bold;
+border-bottom:1px solid #eee;
 }
