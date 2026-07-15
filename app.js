@@ -261,10 +261,10 @@ document.getElementById("lastBarcode").textContent = p.barcode;
 document.getElementById("lastProduct").textContent = p.product;
 document.getElementById("lastPrice").textContent = p.selling;
 document.getElementById("lastStock").textContent = p.stock;
+const currentItem = cart.find(x => x.barcode == p.barcode);
 
-const item = cart.find(x => x.barcode == p.barcode);
-document.getElementById("lastQty").textContent = item.qty;
-
+document.getElementById("lastQty").textContent =
+currentItem.qty;
 document.getElementById("results").innerHTML="";
 
 document.getElementById("search").value="";
