@@ -486,4 +486,17 @@ if(result.success){
 
 }
 }
+//===============================
+// RECEIVE BARCODE FROM SCANNER
+//===============================
+
+window.addEventListener("message", function(event){
+
+    if(event.data.type !== "POS_BARCODE") return;
+
+    console.log("SCANNED:", event.data.barcode);
+
+    addProduct(event.data.barcode);
+
+});
 
