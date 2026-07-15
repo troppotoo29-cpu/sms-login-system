@@ -499,4 +499,62 @@ window.addEventListener("message", function(event){
     addProduct(event.data.barcode);
 
 });
+//====================================
+// PRODUCT DRAWER
+//====================================
+
+document.addEventListener("DOMContentLoaded",function(){
+
+const btn=document.getElementById("productsBtn");
+
+const drawer=document.getElementById("productDrawer");
+
+const close=document.getElementById("closeDrawer");
+
+if(btn){
+
+btn.addEventListener("click",function(){
+
+drawer.classList.add("open");
+
+});
+
+}
+
+if(close){
+
+close.addEventListener("click",function(){
+
+drawer.classList.remove("open");
+
+});
+
+}
+
+});
+
+
+//====================================
+// DRAWER TABS
+//====================================
+
+function showDrawerTab(id,button){
+
+document.querySelectorAll(".drawerContent").forEach(function(div){
+
+div.style.display="none";
+
+});
+
+document.querySelectorAll(".drawerTab").forEach(function(tab){
+
+tab.classList.remove("active");
+
+});
+
+document.getElementById(id).style.display="block";
+
+button.classList.add("active");
+
+}
 
