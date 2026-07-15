@@ -243,9 +243,7 @@ style="display:none;">
 
         <button class="adminButton">Dashboard</button>
 
-    <button class="adminButton" id="productsBtn">
-📦 Products
-</button>
+ <button class="adminButton" id="productsBtn">📦 Products</button>
 
         <button class="adminButton">Inventory</button>
 
@@ -268,6 +266,137 @@ style="display:none;">
             <div>Low Stock : <span id="lowStock">0</span></div>
 
         </div>
+
+    </div>
+
+</div>
+    <!-- PRODUCT MANAGEMENT DRAWER -->
+
+<div id="productDrawer" class="productDrawer">
+
+    <div class="drawerHeader">
+
+        <h2>📦 PRODUCT MANAGEMENT</h2>
+
+        <button id="closeDrawer">✖</button>
+
+    </div>
+
+    <div class="drawerTabs">
+
+        <button class="drawerTab active" onclick="showDrawerTab('addTab',this)">
+            ➕ Add Product
+        </button>
+
+        <button class="drawerTab" onclick="showDrawerTab('importTab',this)">
+            📥 Import Products
+        </button>
+
+        <button class="drawerTab" onclick="showDrawerTab('barcodeTab',this)">
+            🏷 Barcode Labels
+        </button>
+
+    </div>
+
+    <!-- ADD PRODUCT -->
+
+    <div id="addTab" class="drawerContent">
+
+        <label>Product Name</label>
+        <input id="pProduct">
+
+        <label>Category</label>
+        <input id="pCategory">
+
+        <label>Supplier</label>
+        <input id="pSupplier">
+
+        <label>Buying Price</label>
+        <input id="pBuying" type="number">
+
+        <label>Selling Price</label>
+        <input id="pSelling" type="number">
+
+        <label>Opening Stock</label>
+        <input id="pStock" type="number">
+
+        <label>Reorder Level</label>
+        <input id="pReorder" type="number">
+
+        <button id="saveProductBtn">
+
+            💾 SAVE PRODUCT
+
+        </button>
+
+        <div id="productMessage"></div>
+
+    </div>
+
+    <!-- IMPORT -->
+
+    <div id="importTab" class="drawerContent" style="display:none;">
+
+        <h3>📥 Import Products</h3>
+
+        <input type="file" id="excelFile" accept=".xlsx,.xls">
+
+        <br><br>
+
+        <button id="previewExcel">
+
+            Preview Excel
+
+        </button>
+
+        <div id="previewArea"></div>
+
+        <br>
+
+        <button id="importProductsBtn">
+
+            IMPORT PRODUCTS
+
+        </button>
+
+    </div>
+
+    <!-- BARCODES -->
+
+    <div id="barcodeTab" class="drawerContent" style="display:none;">
+
+        <h3>🏷 Barcode Label Center</h3>
+
+        <input id="labelSearch"
+               placeholder="Search Product">
+
+        <br><br>
+
+        <select id="labelLayout">
+
+            <option value="21">21 Labels / A4</option>
+
+            <option value="30">30 Labels / A4</option>
+
+            <option value="40">40 Labels / A4</option>
+
+        </select>
+
+        <br><br>
+
+        <button id="printLabelsBtn">
+
+            🖨 PRINT LABELS
+
+        </button>
+
+        <button id="savePdfBtn">
+
+            💾 SAVE PDF
+
+        </button>
+
+        <div id="labelResults"></div>
 
     </div>
 
