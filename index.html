@@ -237,27 +237,45 @@ style="display:none;">
 
     <!-- ADMIN PANEL -->
 
-    <div class="adminPanel">
+   <div class="adminPanel">
 
-        <h2>⚙ QUICK MENU</h2>
+    <h2>⚙ ADMINISTRATION</h2>
 
-        <button class="adminButton">Dashboard</button>
+    <button class="adminButton" id="productsBtn">
 
- <button class="adminButton" id="productsBtn">📦 Products</button>
+        📦 PRODUCTS
 
-        <button class="adminButton">Inventory</button>
+    </button>
 
-        <button class="adminButton">Sales</button>
+    <button class="adminButton" id="reportsBtn">
 
-        <button class="adminButton">Reports</button>
+        📈 REPORTS
 
-        <button class="adminButton">Users</button>
+    </button>
 
-        <button class="adminButton">Settings</button>
+    <button class="adminButton" id="administratorBtn">
 
-        <button class="adminButton">Logout</button>
+        🔒 ADMINISTRATOR
 
-        <div class="quickStats">
+    </button>
+
+    <hr style="margin:25px 0;">
+
+    <div class="quickStats">
+
+        <div><b>Today's Sales</b><br><span id="todaySales">0</span></div>
+
+        <br>
+
+        <div><b>Today's Profit</b><br><span id="todayProfit">0</span></div>
+
+        <br>
+
+        <div><b>Low Stock Items</b><br><span id="lowStock">0</span></div>
+
+    </div>
+
+</div>
 
             <div>Today's Sales : <span id="todaySales">0</span></div>
 
