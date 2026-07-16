@@ -1,52 +1,89 @@
-const API_URL =
-"https://script.google.com/macros/s/YOUR_WEB_APP_ID/exec";
+//=================================
+// PRODUCTS.JS
+//=================================
 
-document
-.getElementById("saveBtn")
-.addEventListener("click",saveProduct);
+function openPopup(title, html){
 
-async function saveProduct(){
+document.getElementById("popupTitle").innerHTML=title;
 
-const product={
-product:
-document.getElementById("product").value.trim(),
+document.getElementById("popupBody").innerHTML=html;
 
-category:
-document.getElementById("category").value.trim(),
+document.getElementById("popupOverlay").style.display="flex";
 
-supplier:
-document.getElementById("supplier").value.trim(),
+}
 
-buying:
-document.getElementById("buying").value,
+document.addEventListener("DOMContentLoaded",()=>{
 
-selling:
-document.getElementById("selling").value,
+const close=document.getElementById("popupClose");
 
-stock:
-document.getElementById("stock").value,
+if(close){
 
-reorder:
-document.getElementById("reorder").value
+close.onclick=function(){
+
+document.getElementById("popupOverlay").style.display="none";
 
 };
 
-const res=await fetch(
-API_URL+"?action=addProduct",
-{
-method:"POST",
-body:JSON.stringify(product)
+}
+
 });
 
-const data=await res.json();
+//===========================
+// ADD PRODUCT
+//===========================
 
-document.getElementById("msg").innerHTML=data.message;
+function openAddProduct(){
 
-if(data.success){
+openPopup("➕ ADD PRODUCT",`
 
-alert(
-"Barcode Generated : "+data.barcode
-);
+<label>Product Name</label>
 
-}
+<input id="pProduct">
+
+<br><br>
+
+<label>Category</label>
+
+<input id="pCategory">
+
+<br><br>
+
+<label>Supplier</label>
+
+<input id="pSupplier">
+
+<br><br>
+
+<label>Buying Price</label>
+
+<input id="pBuying" type="number">
+
+<br><br>
+
+<label>Selling Price</label>
+
+<input id="pSelling" type="number">
+
+<br><br>
+
+<label>Opening Stock</label>
+
+<input id="pStock" type="number">
+
+<br><br>
+
+<label>Reorder Level</label>
+
+<input id="pReorder" type="number">
+
+<br><br>
+
+<button id="saveProductBtn">
+
+💾 SAVE PRODUCT
+
+</button>
+
+`);
+
 }
