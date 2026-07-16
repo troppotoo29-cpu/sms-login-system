@@ -151,10 +151,69 @@ document
 //================================
 // Temporary placeholders
 //================================
-
 function showProductsMenu(){
 
-alert("Products Menu Coming Next");
+const panel=document.querySelector(".adminPanel");
+
+panel.innerHTML=`
+
+<h2>📦 PRODUCTS</h2>
+
+<button class="adminButton" id="addProductBtn">
+
+➕ Add Product
+
+</button>
+
+<button class="adminButton" id="importProductBtn">
+
+📥 Import Products
+
+</button>
+
+<button class="adminButton" id="barcodeBtn">
+
+🏷 Barcode Labels
+
+</button>
+
+<button class="adminButton" id="viewProductsBtn">
+
+📋 View Products
+
+</button>
+
+<button class="adminButton" id="logoutBtn">
+
+🚪 Logout
+
+</button>
+
+<hr>
+
+<button class="adminButton" id="backAdminBtn">
+
+⬅ Back
+
+</button>
+
+`;
+
+document.getElementById("addProductBtn").onclick=openAddProduct;
+
+document.getElementById("importProductBtn").onclick=openImportProducts;
+
+document.getElementById("barcodeBtn").onclick=openBarcodeCenter;
+
+document.getElementById("viewProductsBtn").onclick=openViewProducts;
+
+document.getElementById("logoutBtn").onclick=function(){
+
+location.reload();
+
+};
+
+document.getElementById("backAdminBtn").onclick=showAdminMenu;
 
 }
 
