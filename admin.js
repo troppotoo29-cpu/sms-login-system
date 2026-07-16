@@ -232,12 +232,6 @@ alert("Users Menu Coming Next");
 // PRODUCT MODULES
 //====================================
 
-function openAddProduct(){
-
-alert("➕ Add Product");
-
-}
-
 function openImportProducts(){
 
 alert("📥 Import Products");
