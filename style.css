@@ -390,3 +390,24 @@ margin-bottom:10px;
 font-size:18px;
 margin:8px 0;
 }
+<!-- UNIVERSAL POPUP -->
+
+<div id="popupOverlay" class="popupOverlay" style="display:none;">
+
+    <div class="popupWindow">
+
+        <div class="popupHeader">
+
+            <span id="popupTitle">Window</span>
+
+            <button id="popupClose">✖</button>
+
+        </div>
+
+        <div id="popupBody">
+
+        </div>
+
+    </div>
+
+</div>
