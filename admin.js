@@ -228,3 +228,30 @@ function showUsersMenu(){
 alert("Users Menu Coming Next");
 
 }
+//====================================
+// PRODUCT MODULES
+//====================================
+
+function openAddProduct(){
+
+alert("➕ Add Product");
+
+}
+
+function openImportProducts(){
+
+alert("📥 Import Products");
+
+}
+
+function openBarcodeCenter(){
+
+alert("🏷 Barcode Labels");
+
+}
+
+function openViewProducts(){
+
+alert("📋 View Products");
+
+}
