@@ -165,7 +165,14 @@ function showAddProduct() {
         <div id="productMessage"></div>
 
     `;
+const btn = document.getElementById("saveProductBtn");
 
+console.log(btn);
+
+btn.onclick = function () {
+    console.log("Button pressed");
+    saveProduct();
+};
     // ADD THESE 3 LINES
     console.log("showAddProduct() executed");
 
