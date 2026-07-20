@@ -50,8 +50,9 @@ function openProducts() {
 }
 
 
-
 function saveProduct(){
+       alert("Save button clicked");
+
 
 const product={
 
@@ -170,7 +171,7 @@ function showAddProduct() {
 
     `;
 
-    document.getElementById("saveProductBtn").onclick = saveProduct;
+  document.getElementById("saveProductBtn").addEventListener("click", saveProduct);
 
 }
 //======================================
