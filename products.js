@@ -1,4 +1,22 @@
 //======================================
+// UNIVERSAL POPUP
+//======================================
+
+function openPopup(title, html){
+
+    document.getElementById("popupTitle").innerHTML = title;
+
+    document.getElementById("popupBody").innerHTML = html;
+
+    document.getElementById("popupOverlay").style.display = "flex";
+
+}
+function closePopup(){
+
+    document.getElementById("popupOverlay").style.display = "none";
+
+}
+//======================================
 // PRODUCT MANAGEMENT
 //======================================
 
