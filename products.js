@@ -1,3 +1,17 @@
+const popup = document.getElementById("popupOverlay");
+const popupTitle = document.getElementById("popupTitle");
+const popupBody = document.getElementById("popupBody");
+const productsTemplate = document.getElementById("productsTemplate");
+
+document.getElementById("productsBtn").onclick = function () {
+
+    popup.style.display = "flex";
+
+    popupTitle.textContent = "📦 PRODUCT MANAGEMENT";
+
+    popupBody.innerHTML = productsTemplate.innerHTML;
+
+};
 //=================================
 // PRODUCTS.JS
 //=================================
