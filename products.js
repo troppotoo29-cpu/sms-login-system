@@ -31,11 +31,6 @@ function openProducts() {
 
 }
 
-document.addEventListener("DOMContentLoaded", function () {
-
-    document.getElementById("productsBtn").onclick = openProducts;
-
-});
 
 
 function saveProduct(){
@@ -118,11 +113,7 @@ document.getElementById("productMessage").innerHTML=
 // PRODUCTS BUTTON
 //===========================
 
-document.addEventListener("DOMContentLoaded", function () {
 
-    document.getElementById("productsBtn").onclick = openAddProduct;
-
-});
 //======================================
 // ADD PRODUCT
 //======================================
