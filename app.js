@@ -5,7 +5,7 @@
 
 // CHANGE THIS ONLY IF YOUR WEB APP URL CHANGES
 const API_URL =
-"https://script.google.com/macros/s/AKfycbyaPAX2CBvlgrP4uBJq6gGCZajcXFoSXHBZQ6gIMPGyMQf-TGzUBxFPm1u425av8Y7O/exec";
+"https://script.google.com/macros/s/AKfycbwXNE_cp5shj6s4GcVZduudjN5K3zacWyZgwb93KxQn-D8kli-jGUbnl1Iq0x7tckDs/exec";
 document.addEventListener("DOMContentLoaded", function () {
 
     const loginButton =
