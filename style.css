@@ -442,3 +442,39 @@ padding:20px;
 max-height:80vh;
 overflow:auto;
 }
+/* PRODUCT POPUP MENU */
+
+.productMenu{
+display:flex;
+gap:10px;
+margin-bottom:15px;
+flex-wrap:wrap;
+}
+
+.productMenu button{
+background:#1565c0;
+color:white;
+border:none;
+padding:10px 18px;
+border-radius:8px;
+cursor:pointer;
+font-weight:bold;
+}
+
+.productMenu button:hover{
+background:#0d47a1;
+}
+
+#productContent input,
+#productContent select{
+width:100%;
+padding:10px;
+margin:6px 0 12px;
+border:1px solid #ccc;
+border-radius:6px;
+}
+
+#productContent button{
+padding:10px 18px;
+margin-right:10px;
+}
