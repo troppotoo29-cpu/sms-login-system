@@ -169,3 +169,50 @@ document.getElementById("productMessage").innerHTML=
 .addProduct(product);
 
 }
+//===========================
+// PRODUCT MANAGEMENT MENU
+//===========================
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    document.getElementById("productsBtn").onclick = function () {
+
+        openPopup("📦 PRODUCT MANAGEMENT", `
+
+            <div style="display:flex;gap:10px;flex-wrap:wrap;">
+
+                <button id="menuAddProduct">➕ Add Product</button>
+
+                <button id="menuImportProducts">📥 Import Products</button>
+
+                <button id="menuBarcodeLabels">🏷 Barcode Labels</button>
+
+            </div>
+
+            <hr>
+
+            <div id="productWorkArea">
+
+                <p>Select an option above.</p>
+
+            </div>
+
+        `);
+
+        document.getElementById("menuAddProduct").onclick = openAddProduct;
+
+        document.getElementById("menuImportProducts").onclick = function () {
+
+            alert("Import Products module coming next.");
+
+        };
+
+        document.getElementById("menuBarcodeLabels").onclick = function () {
+
+            alert("Barcode Labels module coming next.");
+
+        };
+
+    };
+
+});
