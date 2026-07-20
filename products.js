@@ -93,7 +93,7 @@ alert("Barcode printing will be connected next.");
 
 };
 
-document.getElementById("addAnotherProduct").onclick=openAddProduct;
+document.getElementById("addAnotherProduct").onclick = showAddProduct;
 
 })
 
