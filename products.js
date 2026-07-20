@@ -1,9 +1,15 @@
+// ===============================
+// PRODUCT MANAGEMENT POPUP
+// ===============================
+
+// Popup Elements
 const popup = document.getElementById("popupOverlay");
 const popupTitle = document.getElementById("popupTitle");
 const popupBody = document.getElementById("popupBody");
 const productsTemplate = document.getElementById("productsTemplate");
 
-document.getElementById("productsBtn").onclick = function () {
+// Open Product Management
+document.getElementById("productsBtn").addEventListener("click", function () {
 
     popup.style.display = "flex";
 
@@ -11,7 +17,16 @@ document.getElementById("productsBtn").onclick = function () {
 
     popupBody.innerHTML = productsTemplate.innerHTML;
 
-};
+});
+
+// Close Popup
+document.getElementById("popupClose").addEventListener("click", function () {
+
+    popup.style.display = "none";
+
+    popupBody.innerHTML = "";
+
+});
 //=================================
 // PRODUCTS.JS
 //=================================
