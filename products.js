@@ -65,7 +65,6 @@ buying:Number(document.getElementById("pBuying").value),
 
 selling:Number(document.getElementById("pSelling").value),
 
-stock:Number(document.getElementById("pStock").value),
 
 reorder:Number(document.getElementById("pReorder").value)
 
