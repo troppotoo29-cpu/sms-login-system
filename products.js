@@ -135,7 +135,6 @@ document.getElementById("productMessage").innerHTML=
 //======================================
 // ADD PRODUCT
 //======================================
-
 function showAddProduct() {
 
     document.getElementById("productContent").innerHTML = `
@@ -155,23 +154,25 @@ function showAddProduct() {
         <label>Selling Price</label>
         <input id="pSelling" type="number">
 
-     
         <label>Reorder Level</label>
         <input id="pReorder" type="number">
 
         <br><br>
 
         <button id="saveProductBtn">
-
             💾 SAVE PRODUCT
-
         </button>
 
         <div id="productMessage"></div>
 
     `;
 
-  document.getElementById("saveProductBtn").addEventListener("click", saveProduct);
+    // ADD THESE 3 LINES
+    console.log("showAddProduct() executed");
+
+    console.log(document.getElementById("saveProductBtn"));
+
+    document.getElementById("saveProductBtn").addEventListener("click", saveProduct);
 
 }
 //======================================
