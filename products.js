@@ -155,9 +155,7 @@ function showAddProduct() {
         <label>Selling Price</label>
         <input id="pSelling" type="number">
 
-        <label>Opening Stock</label>
-        <input id="pStock" type="number">
-
+     
         <label>Reorder Level</label>
         <input id="pReorder" type="number">
 
