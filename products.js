@@ -49,13 +49,12 @@ function openProducts() {
 
 }
 
-
 function saveProduct(){
-       alert("Save button clicked");
 
+    console.log("saveProduct() called");
+    alert("SAVE CLICKED");
 
-const product={
-
+    const product = {
 product:document.getElementById("pProduct").value,
 
 category:document.getElementById("pCategory").value,
